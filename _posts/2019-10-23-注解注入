@@ -1,0 +1,55 @@
+* **xml 全类名反射注入 需要Bean有一个无参的构造器**
+
+  * 因为反射的基本操作如下
+
+    * ```java
+      Class class = Class.forName(className);
+      Object object = class.newInstance(); *// 只能调用无参构造函数*
+      
+      ```
+
+      需要调用到无参构造方法，如果需要需要类中有参，那需要将无参构造方法显示写出来。
+
+  * 如果没有无参构造方法 启动IOC时候报错
+
+    * ```java
+      Could not instantiate bean class [top.heysunday.helloOne]: No default constructor found; 
+      ```
+
+* **通过xml中配置的ID来配置Bean，ID值是唯一**
+
+* **ApplicationContext**
+
+  * IOC容器的实现之一：另一种是BeanFactory,
+  * 是BeanFactory子类
+  * ApplicationContext 继承于ConfigurableApplicationContext，该类新增refresh(),close()，方法，让ApplicationContext 具有启动 关闭 刷新上下文的能力
+  * 利用ID和class类型都可以getBean
+
+* **注入值**
+
+  * 属性注入
+
+    * xml实现property在Bean下定义Bean里面字段的属性
+
+      * <property name="name2" value="曾子慧"/>
+
+    * java文件中实现getter 和setter方法
+
+      * ```java
+        @Setter
+        private String name2;
+        ```
+
+  * 构造器注入
+
+    * xml实现constructor-arg
+
+      * ```xml
+        <constructor-arg value="Audi"></constructor-arg>
+        ```
+
+    * java文件实现构造器，由于构造器可能个数相同但有类型不同的重载构造方法，所以可以在xml文件中用index和type进行区分。
+
+      * ```xml
+        <constructor-arg value="300000" type="double"/>
+        ```
